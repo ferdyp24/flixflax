@@ -3,18 +3,26 @@ import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios';
 
+// import actions definitions
 import {
   insertCatalogue,
-  // setCatalogueLoading,
   addToCart,
 } from '../actions'
 
 const Catalogue = () => {
+  // get the movies list & loading status from redux state
   const movies = useSelector(state => state.catalogue.movies);
   const isLoading = useSelector(state => state.catalogue.isLoading);
   const dispatch = useDispatch();
+
+  // call the SWAPI after the component has been mounted
   useEffect(() => {
     (async () => {
+      // since the amount of movies returned from SWAPI is always the same,
+      // and sometimes the time required for SWAPI to returned the response is long,
+      // it is a good decision to not keep requesting for the movies list each time we
+      // re-render or revisiting the catalogue page. Just need to request on the first time we open the page.
+      // Hence why we need to check if the movies array from the state is empty or not.
       if(movies.length === 0) {
         const res = await axios.get('https://swapi.dev/api/films');
         const newList = res.data.results.map(movie => ({
@@ -29,15 +37,15 @@ const Catalogue = () => {
           })
         )
         dispatch(insertCatalogue(newList));
-        // dispatch(setCatalogueLoading(false));
       }
     })()
   }, [dispatch, movies.length]);
 
+  // Add to cart button handler
   const addToCartHandler = (index) => {
     dispatch(addToCart(movies[index]));
   };
-  
+
   const loadingMarkup = (
     <div className="mt-4 text-center">
       <div className="spinner-border me-3" role="status" />Loading Movies....

@@ -1,15 +1,20 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux'
+
+// import actions definitions
 import { removeOneItem, resetCart } from '../actions'
 
 const Cart = () => {
+  // get the cart items array and total price from redux
   const cartItems = useSelector(state => state.cart.items);
   const totalPrice = useSelector(state => state.cart.totalPrice);
   const dispatch = useDispatch();
 
+  // handler for deleting one item of the cart
   const deleteHandler = index => {
     dispatch(removeOneItem(index));
   }
+  // handler for removing all cart item
   const resetHandler = () => {
     dispatch(resetCart());
   }

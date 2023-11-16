@@ -5,17 +5,12 @@ const initialState = {
 
 const catalogueReducer = (state = initialState, action) => {
   switch (action.type) {
+    // add the movies list and set the loading state to false
     case 'INSERT_CATALOGUE':
       return {
         movies: action.payload,
         isLoading: false
       };
-
-    // case 'SET_LOADING':
-    //   return {
-    //     ...state,
-    //     isLoading: action.payload
-    //   };
 
     default:
       return state;

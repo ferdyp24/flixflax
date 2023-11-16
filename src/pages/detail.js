@@ -2,13 +2,17 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
 
+// import actions definitions
 import { addToCart } from '../actions'
 
 const Detail = () => {
+  // get the movie index from the URL
   const { id } = useParams();
   const dispatch = useDispatch();
+  // get the movie detail data with the index
   const movieData = useSelector(state => state.catalogue.movies[id]);
 
+  // Add to cart button handler
   const addToCartHandler = () => {
     dispatch(addToCart(movieData));
   };
