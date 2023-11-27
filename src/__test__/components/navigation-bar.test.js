@@ -28,7 +28,9 @@ describe('NavBar', () => {
     // Create a mocked Redux store
     const store = configureMockStore()(initialState);
 
+    // create a mock history object
     const history = createMemoryHistory();
+    // create mock to test if the Link component redirects to '/cart'
     history.push = jest.fn();
 
     // Render the component with the mocked store and Router
@@ -40,11 +42,13 @@ describe('NavBar', () => {
       </Provider>
     );
 
-    
+    // check if the menu items are being rendered
     expect(screen.getByText('Flix Flax')).toBeInTheDocument();
     expect(screen.getByText('Catalogue')).toBeInTheDocument();
     expect(screen.getByText('Cart')).toBeInTheDocument();
     expect(screen.getByText(`${initialState.cart.items.length}`)).toBeInTheDocument();
+
+    // test the Link component functionality using one of the menu
     fireEvent.click(screen.getByText('Cart'))
     expect(history.push).toHaveBeenCalledWith('/cart');
   });

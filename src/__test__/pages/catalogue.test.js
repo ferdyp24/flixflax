@@ -9,6 +9,7 @@ import axios from 'axios';
 import Catalogue from '../../pages/catalogue';
 import { insertCatalogue, addToCart } from '../../actions/index';
 
+// mock data
 const mockSWAPI = [
   {
     episode_id: 1,
@@ -53,6 +54,7 @@ const mockMovies = [
   },
 ]
 
+// mock dispatch so we can test if the button handlers work and axios to customize the response
 const mockDispatch = jest.fn();
 jest.mock('axios');
 jest.mock('react-redux', () => ({
@@ -63,10 +65,12 @@ jest.mock('react-redux', () => ({
 describe('Catalogue component', () => {
   afterEach(() => jest.clearAllMocks());
 
+  // initiating mock redux store
   const mockStore = configureStore();
   let store;
 
   it('render loading catalogue', async () => {
+    // defining the mock store to have empty cart item
     store = mockStore({
       catalogue: {
         movies: [],
@@ -74,9 +78,12 @@ describe('Catalogue component', () => {
       }
     });
 
+    // create a mock history object
     const history = createMemoryHistory();
+    // create mock to test if the Link component redirects to '/cart'
     history.push = jest.fn();
 
+    // mock axios response
     axios.get.mockResolvedValue({ data: {
       results: mockSWAPI
     }});
@@ -89,14 +96,19 @@ describe('Catalogue component', () => {
       </Provider>
     );
 
+    // check if the loading text is being rendered
     expect(screen.getByText('Loading Movies....')).toBeInTheDocument();
+    // check that there should be no item being rendered (a movie title)
     expect(screen.queryByText('Test Movie')).not.toBeInTheDocument();
+
+    // check axios and redux dispatch in useEffect
     expect(axios.get).toHaveBeenCalledTimes(1);
     expect(axios.get).toHaveBeenCalledWith('https://swapi.dev/api/films');
     await waitFor(() => expect(mockDispatch).toHaveBeenCalledWith(insertCatalogue(mockMovies)));
   });
 
   it('render movies list, handle add to cart button, and go to detail', () => {
+    // defining the mock store to have two cart items
     store = mockStore({
       catalogue: {
         movies: mockMovies,
@@ -104,9 +116,12 @@ describe('Catalogue component', () => {
       }
     });
 
+    // create a mock history object
     const history = createMemoryHistory();
+    // create mock to test if the Link component redirects to '/cart'
     history.push = jest.fn();
 
+    // mock axios response
     axios.get.mockResolvedValue({ data: {
       results: mockSWAPI
     }});
@@ -119,16 +134,21 @@ describe('Catalogue component', () => {
       </Provider>
     );
 
+    // check that it should not show the loading text
     expect(screen.queryByText('Loading Movies....')).not.toBeInTheDocument();
+    // check that axios and redux dispatch is not called in useEffect
     expect(axios.get).not.toHaveBeenCalled();
     expect(mockDispatch).not.toHaveBeenCalled();
 
+    // check if the items/movies from the mock store are rendered
     expect(screen.getByText('Test Movie')).toBeInTheDocument();
     expect(screen.getByText('Test Movie 2')).toBeInTheDocument();
 
+    // test the add to cart functionality
     fireEvent.click(screen.getAllByRole('button', { name: 'Add to cart' })[0]);
     expect(mockDispatch).toHaveBeenCalledWith(addToCart(mockMovies[0]));
 
+    // test go to detail page
     fireEvent.click(screen.getAllByRole('link', { name: 'View Detail' })[0]);
     expect(history.push).toHaveBeenCalledWith('/detail/0');
   });
