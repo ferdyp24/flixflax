@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "./static/css/main.2f93fdbb.css",
-    "main.js": "./static/js/main.f89f4902.js",
-    "static/js/787.8a63de0b.chunk.js": "./static/js/787.8a63de0b.chunk.js",
-    "index.html": "./index.html",
-    "main.2f93fdbb.css.map": "./static/css/main.2f93fdbb.css.map",
-    "main.f89f4902.js.map": "./static/js/main.f89f4902.js.map",
-    "787.8a63de0b.chunk.js.map": "./static/js/787.8a63de0b.chunk.js.map"
+    "main.css": "/flixflax/static/css/main.2f93fdbb.css",
+    "main.js": "/flixflax/static/js/main.442a477e.js",
+    "static/js/787.8a63de0b.chunk.js": "/flixflax/static/js/787.8a63de0b.chunk.js",
+    "index.html": "/flixflax/index.html",
+    "main.2f93fdbb.css.map": "/flixflax/static/css/main.2f93fdbb.css.map",
+    "main.442a477e.js.map": "/flixflax/static/js/main.442a477e.js.map",
+    "787.8a63de0b.chunk.js.map": "/flixflax/static/js/787.8a63de0b.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.2f93fdbb.css",
-    "static/js/main.f89f4902.js"
+    "static/js/main.442a477e.js"
   ]
 }
